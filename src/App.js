@@ -10,15 +10,26 @@ class App extends Component {
     users: [],
     loading: false,
   };
-  async componentDidMount() {
-    this.setState({ loading: true });
 
+  // async componentDidMount() {
+  //   this.setState({ loading: true });
+
+  //   const res = await axios.get(
+  //     `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+  //   );
+
+  //   this.setState({ users: res.data, loading: false });
+  // }
+
+  // Search Github users
+  searchUsers = async (text) => {
+    this.setState({ loading: true });
     const res = await axios.get(
-      `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
-    this.setState({ users: res.data, loading: false });
-  }
+    this.setState({ users: res.data.items, loading: false });
+  };
 
   // render is a function within class
   //it is a lifecycle method that runs at a certain point when the component is loaded
@@ -28,7 +39,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="container">
-          <Search />
+          <Search searchUsers={this.searchUsers} />
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
