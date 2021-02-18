@@ -1,10 +1,21 @@
 import React, { Component } from "react";
 import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
+import axios from "axios";
 import "./App.css";
 
 class App extends Component {
-  foo = () => `Bars`;
+  state = {
+    users: [],
+    loading: false,
+  };
+  async componentDidMount() {
+    this.setState({ loading: true });
+
+    const res = await axios.get("https://api.github.com/users");
+
+    this.setState({ users: res.data, loading: false });
+  }
 
   // render is a function within class
   //it is a lifecycle method that runs at a certain point when the component is loaded
@@ -14,7 +25,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="container">
-          <Users />
+          <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
     );
