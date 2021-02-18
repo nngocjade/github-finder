@@ -21,12 +21,12 @@ const Users = ({ users, loading }) => {
 
 Users.propTypes = {
   users: PropTypes.array.isRequired,
-  loading: Boolean,
+  loading: PropTypes.bool.isRequired,
 };
 
 const userStyle = {
   display: "grid",
-  gridTemplateColumns: "repeat(3,1fr)",
+  gridTemplateColumns: "repeat(3, 1fr)",
   gridGap: "1rem",
 };
 
