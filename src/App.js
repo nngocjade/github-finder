@@ -31,16 +31,27 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
+  // Clear users from state
+  clearUsers = () => {
+    this.setState({ users: [], loading: false });
+  };
+
   // render is a function within class
   //it is a lifecycle method that runs at a certain point when the component is loaded
   //it is required because it renders the output
   render() {
+    const { users, loading } = this.state;
+
     return (
       <div className="App">
         <Navbar />
         <div className="container">
-          <Search searchUsers={this.searchUsers} />
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Search
+            searchUsers={this.searchUsers}
+            clearUsers={this.clearUsers}
+            showClear={users.length > 0 ? true : false}
+          />
+          <Users loading={loading} users={users} />
         </div>
       </div>
     );
